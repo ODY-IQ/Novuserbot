@@ -436,9 +436,9 @@ def is_flood(uid: int) -> Optional[bool]:
 @iqthon.tgbot.on(CallbackQuery(data=re.compile(b"toggle_bot-antiflood_off$")))
 @check_owner
 async def settings_toggle(c_q: CallbackQuery):
-    if gvarstatus("bot_antif") is None:
+    if gvarstatus("antif") is None:
         return await c_q.answer(f" تحذير التكرار فعلا غير مفعل ❓", alert=False)
-    delgvar("bot_antif")
+    delgvar("antif")
     await c_q.answer(f" تم ايقاف تحذير التكرار ❗️", alert=False)
     await c_q.edit("**▾∮ تحذير التكرار غير مفعل الان  ✅**")
 
@@ -446,7 +446,7 @@ async def settings_toggle(c_q: CallbackQuery):
 @iqthon.bot_cmd(incoming=True, func=lambda e: e.is_private)
 @iqthon.bot_cmd(edited=True, func=lambda e: e.is_private)
 async def antif_on_msg(event):
-    if gvarstatus("bot_antif") is None:
+    if gvarstatus("antif") is None:
         return
     chat = await event.get_chat()
     if chat.id == Config.OWNER_ID:
