@@ -101,12 +101,12 @@ async def bot_broadcast(event):
 
 
 @iqthon.iq_cmd(
-    pattern=f"^/المستخدمين$",
-    command=("bot_users", plugin_category),
+    pattern=f"/users$",
+    command=("users", plugin_category),
     info={
         "header": "To get users list who started bot.",
         "description": "To get compelete list of users who started your bot",
-        "usage": "{tr}bot_users",
+        "usage": "{tr}users",
     },
 )
 async def ban_starters(event):
@@ -121,7 +121,7 @@ async def ban_starters(event):
 
 
 @iqthon.iq_cmd(
-    pattern=f"^/حظر\s+([\s\S]*)",
+    pattern=f"^/ban\s+([\s\S]*)",
     from_users=Config.OWNER_ID,
 )
 async def ban_botpms(event):
@@ -153,7 +153,7 @@ async def ban_botpms(event):
 
 
 @iqthon.iq_cmd(
-     pattern=f"^/فتح الحظر(?:\s|$)([\s\S]*)",
+    pattern=f"^/unban(?:\s|$)([\s\S]*)",
     from_users=Config.OWNER_ID,
 )
 async def ban_botpms(event):
@@ -161,13 +161,13 @@ async def ban_botpms(event):
     reply_to = await reply_id(event)
     if not user_id:
         return await event.client.send_message(
-            event.chat_id, "**⌔︙ لا استطيع ايجاد المستخـدم للحـظر 🔍⚠️ .**", reply_to=reply_to
+            event.chat_id, "**▾∮ لا استطيع ايجاد المستخدم لالغاء حظره!**", reply_to=reply_to
         )
     try:
         user = await event.client.get_entity(user_id)
         user_id = user.id
     except Exception as e:
-        return await event.reply(f"**⌔︙عـذرا هنـاك خطـأ 🚫 :**\n`{str(e)}`")
+        return await event.reply(f"**▾∮هنالك خطأ ... تحقق ↻**\n`{str(e)}`")
     check = check_is_black_list(user.id)
     if not check:
         return await event.client.send_message(
@@ -179,12 +179,12 @@ async def ban_botpms(event):
 
 
 @iqthon.iq_cmd(
-   pattern=f"^/المحظورين$",
-    command=("bblist", plugin_category),
+    pattern=f"/banlist$",
+    command=("banlist", plugin_category),
     info={
-        "header": "To get users list who are banned in bot.",
+        "header": "To get users list who are banned in bot.",                           #بعدين
         "description": "To get list of users who are banned in bot.",
-        "usage": "{tr}bblist",
+        "usage": "{tr}banlist",
     },
 )
 async def ban_starters(event):
@@ -198,21 +198,21 @@ async def ban_starters(event):
     await edit_or_reply(event, msg)
 
 @iqthon.iq_cmd(
-    pattern=f"^/التكرار (تشغيل|off)$",
-    command=("bot_antif", plugin_category),
+    pattern=f"/antif  (on|off)$",
+    command=("antif", plugin_category),
     info={
         "header": "To enable or disable bot antiflood.",
         "description": "if it was turned on then after 10 messages or 10 edits of same messages in less time then your bot auto loacks them.",
         "usage": [
-            "{tr}bot_antif on",
-            "{tr}bot_antif off",
+            "{tr}antif on",
+            "{tr}antif off",
         ],
     },
 )
 async def ban_antiflood(event):
     "To enable or disable bot antiflood."
     input_str = event.pattern_match.group(1)
-    if input_str == "تشغيل":
+    if input_str == "on":
         if gvarstatus("bot_antif") is not None:
             return await edit_delete(event, "**▾∮ بالفعل تم تفعيل تحذير التكرار  ✅**")
         addgvar("bot_antif", True)
