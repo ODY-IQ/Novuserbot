@@ -89,7 +89,7 @@ plugin_category = "admin"
 async def set_group_photo(event):  # sourcery no-metrics
     "⌔︙لتغيير المجموعة  ♌️"
     flag = (event.pattern_match.group(1)).strip()
-    if flag == "-s":
+    if flag == "ضع":
         replymsg = await event.get_reply_message()
         photo = None
         if replymsg and replymsg.media:
