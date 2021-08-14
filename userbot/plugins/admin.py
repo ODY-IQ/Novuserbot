@@ -69,7 +69,7 @@ plugin_category = "admin"
 
 
 @iqthon.iq_cmd(
-    pattern="صورة ( ضع| حذف)$",
+    pattern="^( ضع| حذف)$",
     command=("صورة", plugin_category),
     info={
         "header": "لتغيير صورة  المجموعة أو حذفها",
@@ -87,7 +87,7 @@ plugin_category = "admin"
     require_admin=True,
 )
 async def set_group_photo(event):  # sourcery no-metrics
-    "⌔︙لتغيير المجموعة  ♌️"
+    "لتغير صورة المجموعة!"
     flag = (event.pattern_match.group(1)).strip()
     if flag == "ضع":
         replymsg = await event.get_reply_message()
@@ -112,13 +112,13 @@ async def set_group_photo(event):  # sourcery no-metrics
             except ImageProcessFailedError:
                 return await edit_delete(event, PP_ERROR)
             except Exception as e:
-                return await edit_delete(event, f"**⌔︙خطأ  ❌ : **`{str(e)}`")
+                return await edit_delete(event, f"**▾∮هنالك خطأ ... تحقق ↶**`{str(e)}`")
             process = "updated"
     else:
         try:
             await event.client(EditPhotoRequest(event.chat_id, InputChatPhotoEmpty()))
         except Exception as e:
-            return await edit_delete(event, f"**♕︙ خطأ : **`{str(e)}`")
+            return await edit_delete(event, f"**▾∮هنالك خطأ ... تحقق ↶** `{str(e)}`")
         process = "deleted"
         await edit_delete(event, "**⌔︙تـم حذف الـصورة بنـجاح  ✔️**")
     if BOTLOG:
